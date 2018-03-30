@@ -3,7 +3,7 @@ set -x -e
 
 apt-get -y update
 apt-get -y install dnsmasq
-echo -e "\n\naddress=/.bosh-lite.com/$BOSH_TARGET" >> /etc/dnsmasq.conf
+echo -e "\n\naddress=/.$CF_DOMAIN/$BOSH_TARGET" >> /etc/dnsmasq.conf
 echo 'starting dnsmasq'
 dnsmasq
 
@@ -16,7 +16,7 @@ cp /etc/resolv.conf ~/resolv.conf.new
 sed -i '1 i\nameserver 127.0.0.1' ~/resolv.conf.new
 cp -f ~/resolv.conf.new /etc/resolv.conf
 # sed -i '1 i\nameserver 127.0.0.1' /etc/resolv.conf
-cf api https://api.bosh-lite.com:443 --skip-ssl-validation
+cf api https://api.$CF_DOMAIN:$CF_ROUTER_PORT --skip-ssl-validation
 cf auth admin $CF_ADMIN_PASSWORD
 # cf login -a https://api.bosh-lite.com -u admin -p admin --skip-ssl-validation
 
@@ -24,17 +24,17 @@ set +e
 cf delete-service-broker -f autoscaler
 set -e
 
-cf create-service-broker autoscaler username password https://autoscalerservicebroker.bosh-lite.com
+cf create-service-broker autoscaler username password https://autoscalerservicebroker.$CF_DOMAIN
 cf enable-service-access autoscaler
 
 export GOPATH=$PWD/app-autoscaler-release
 pushd app-autoscaler-release/src/acceptance
 cat > acceptance_config.json <<EOF
 {
-  "api": "api.bosh-lite.com",
+  "api": "api.$CF_DOMAIN",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
-  "apps_domain": "bosh-lite.com",
+  "apps_domain": "$CF_DOMAIN",
   "skip_ssl_validation": true,
   "use_http": false,
 

@@ -9,7 +9,7 @@ resources:
   type: git
   source:
     uri: https://github.com/cloudfoundry-incubator/app-autoscaler-release.git
-    branch: master
+    branch: {{app-autoscaler-release-branch}}
 
 - name: cf-deployment
   type: git
@@ -56,10 +56,14 @@ jobs:
     privileged: true
     file: app-autoscaler-ci/autoscaler/tasks/deploy-cf.yml
     params:
-      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_TARGET_HOST: {{bosh-target-host}}
+      BOSH_TARGET_PORT: {{bosh-target-port}}
       BOSH_CA: {{bosh-ca}}
       BOSH_USERNAME: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
+      CF_DOMAIN: {{cf-domain}}
+      CF_ROUTER_PORT: {{cf-router-port}}
+      CF_NETWORK_PREFIX: {{cf-network-prefix}}
       CF_ADMIN_PASSWORD: {{cf-password}}
       CF_ADMIN_CLIENT_SECRET: {{cf-secrect}}
         
@@ -76,10 +80,13 @@ jobs:
     privileged: true
     file: app-autoscaler-ci/autoscaler/tasks/deploy-autoscaler.yml
     params:
-      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_TARGET_HOST: {{bosh-target-host}}
+      BOSH_TARGET_PORT: {{bosh-target-port}}
       BOSH_USERNAME: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
       BOSH_CA: {{bosh-ca}}
+      CF_DOMAIN: {{cf-domain}}
+      CF_ROUTER_PORT: {{cf-router-port}}
       CF_ADMIN_PASSWORD: {{cf-password}}
       CF_ADMIN_CLIENT_SECRET: {{cf-secrect}}
 
@@ -100,5 +107,8 @@ jobs:
     file: app-autoscaler-ci/autoscaler/tasks/autoscaler-acceptance.yml
     privileged: true
     params:
-      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_TARGET_HOST: {{bosh-target-host}}
+      BOSH_TARGET_PORT: {{bosh-target-port}}
+      CF_DOMAIN: {{cf-domain}}
+      CF_ROUTER_PORT: {{cf-router-port}}
       CF_ADMIN_PASSWORD: {{cf-password}}
