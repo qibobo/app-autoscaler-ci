@@ -3,7 +3,7 @@ set -x
 set -e
 
 echo "$BOSH_CA" > "./bosh_ca"
-bosh -e $BOSH_TARGET:$BOSH_TARGET_PORT --ca-cert ./bosh_ca alias-env vbox 
+bosh -e $BOSH_TARGET_HOST:$BOSH_TARGET_PORT --ca-cert ./bosh_ca alias-env vbox 
 export BOSH_CLIENT=$BOSH_USERNAME 
 export BOSH_CLIENT_SECRET=$BOSH_PASSWORD
 bosh -n -e vbox delete-deployment -d cf
