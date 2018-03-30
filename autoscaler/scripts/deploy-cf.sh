@@ -45,11 +45,11 @@ sed -i "s/10.244/${CF_NETWORK_PREFIX}/g" operations/bosh-lite.yml
 bosh -n -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 bosh -n -e vbox update-cloud-config iaas-support/bosh-lite/cloud-config.yml
 bosh -e vbox -d cf deploy -n cf-deployment.yml \
+  -o cf_operation.yml \
   -o operations/bosh-lite.yml \
   -o operations/use-compiled-releases.yml \
-  -o cf_operation.yml \
   --vars-store ../app-autoscaler-ci/autoscaler/deployment-vars.yml \
   -v system_domain=$CF_DOMAIN \
-  -v cf_router_port=$CF_ROUTER_PORT
+  -v cf_router_port=$CF_ROUTER_PORT \
   -v cf_admin_password=$CF_ADMIN_PASSWORD \
   -v uaa_admin_client_secret=$CF_ADMIN_CLIENT_SECRET
