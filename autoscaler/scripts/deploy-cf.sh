@@ -12,7 +12,7 @@ cd cf-deployment
 cat >cf_operation.yml <<-EOF
 ---
 - type: replace
-  path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/protocol
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/protocol?
   value: http
 
 - type: replace
