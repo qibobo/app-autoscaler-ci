@@ -9,6 +9,7 @@ export BOSH_CLIENT_SECRET=$BOSH_PASSWORD
 bosh -n -e vbox delete-deployment -d cf
 cd cf-deployment
 sed -i "s/enable_ssl: true/enable_ssl: false\n        port: ${CF_ROUTER_PORT}/g" cf-deployment.yml
+sed -i "s#url: https://uaa#url: http://uaa#" cf-deployment.yml
 sed -i "s/10.244/${CF_NETWORK_PREFIX}/g" iaas-support/bosh-lite/cloud-config.yml
 sed -i "s/10.244/${CF_NETWORK_PREFIX}/g" operations/bosh-lite.yml
 bosh -n -e vbox upload-stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent

@@ -8,7 +8,7 @@ resources:
 - name: app-autoscaler-release
   type: git
   source:
-    uri: https://github.com/qibobo/app-autoscaler-ci.git
+    uri: https://github.com/cloudfoundry-incubator/app-autoscaler-release.git
     branch: {{app-autoscaler-release-branch}}
 
 - name: cf-deployment
