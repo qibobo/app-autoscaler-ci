@@ -28,11 +28,11 @@ cat >cf_operation.yml <<-EOF
   value: http://uaa.((system_domain))
 
 - type: replace
-  path: /instance_groups/name=router/jobs/name=gorouter/properties/gorouter/enable_ssl
+  path: /instance_groups/name=router/jobs/name=gorouter/properties/router/enable_ssl
   value: false
 
 - type: replace
-  path: /instance_groups/name=router/jobs/name=gorouter/properties/gorouter/port?
+  path: /instance_groups/name=router/jobs/name=gorouter/properties/router/port?
   value: ((cf_router_port))
 
 EOF
