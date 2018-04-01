@@ -14,6 +14,10 @@ cat >cf_operation.yml <<-EOF
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/protocol?
   value: http
+---
+- type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/login/url?
+  value: http://login.((system_domain)):((cf_router_port))
 
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/url
