@@ -28,11 +28,21 @@ cat >cf_operation.yml <<-EOF
   value: http://uaa.((system_domain))
 
 - type: replace
-  path: /instance_groups/name=router/jobs/name=gorouter/properties/router/enable_ssl
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/doppler?
+  value: 
+    use_ssl: false
+    port: ((cf_router_port))
+- type: replace
+  path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/login?
+  value: 
+    url: http://login.((system_domain)):((cf_router_port))
+
+- type: replace
+  path: /instance_groups/name=router/jobs/name=gorouter/properties/gorouter/enable_ssl
   value: false
 
 - type: replace
-  path: /instance_groups/name=router/jobs/name=gorouter/properties/router/port?
+  path: /instance_groups/name=router/jobs/name=gorouter/properties/gorouter/port?
   value: ((cf_router_port))
 
 EOF
