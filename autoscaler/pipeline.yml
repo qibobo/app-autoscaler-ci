@@ -87,6 +87,7 @@ jobs:
       BOSH_CA: {{bosh-ca}}
       CF_DOMAIN: {{cf-domain}}
       CF_ROUTER_PORT: {{cf-router-port}}
+      CF_NETWORK_PREFIX: {{cf-network-prefix}}
       CF_ADMIN_PASSWORD: {{cf-password}}
       CF_ADMIN_CLIENT_SECRET: {{cf-secrect}}
 
