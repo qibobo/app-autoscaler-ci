@@ -21,6 +21,9 @@ cat >cf_operation.yml <<-EOF
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/url
   value: http://uaa.((system_domain))
 - type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/require_https
+  value: false
+- type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/ssh-proxy/redirect-uri
   value: "http://uaa.((system_domain))/login"
 - type: replace
