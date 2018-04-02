@@ -32,7 +32,7 @@ export GOPATH=$PWD/app-autoscaler-release
 pushd app-autoscaler-release/src/acceptance
 cat > acceptance_config.json <<EOF
 {
-  "api": "api.$CF_DOMAIN:$CF_ROUTER_PORT",
+  "api": "http://api.$CF_DOMAIN:$CF_ROUTER_PORT",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
   "apps_domain": "$CF_DOMAIN",
