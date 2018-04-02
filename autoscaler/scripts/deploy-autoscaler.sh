@@ -15,10 +15,10 @@ cat >as_operation.yml <<-EOF
 ---
 - type: replace
   path: /instance_groups/name=apiserver/jobs/name=apiserver/properties/cf/api?
-  value: http://10.245.0.34:((cf_router_port))
+  value: http://10.245.0.135:9022
 - type: replace
   path: /instance_groups/name=metricscollector/jobs/name=metricscollector/properties/cf/api?
-  value: http://10.245.0.34:((cf_router_port))
+  value: http://10.245.0.135:9022
 
 EOF
 bosh create-release --force
