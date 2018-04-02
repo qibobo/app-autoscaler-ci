@@ -16,7 +16,7 @@ cp /etc/resolv.conf ~/resolv.conf.new
 sed -i '1 i\nameserver 127.0.0.1' ~/resolv.conf.new
 cp -f ~/resolv.conf.new /etc/resolv.conf
 # sed -i '1 i\nameserver 127.0.0.1' /etc/resolv.conf
-cf api https://api.$CF_DOMAIN:$CF_ROUTER_PORT --skip-ssl-validation
+cf api http://api.$CF_DOMAIN:$CF_ROUTER_PORT --skip-ssl-validation
 cf auth admin $CF_ADMIN_PASSWORD
 # cf login -a https://api.bosh-lite.com -u admin -p admin --skip-ssl-validation
 
@@ -24,19 +24,19 @@ set +e
 cf delete-service-broker -f autoscaler
 set -e
 
-cf create-service-broker autoscaler username password https://autoscalerservicebroker.$CF_DOMAIN
+cf create-service-broker autoscaler username password http://autoscalerservicebroker.$CF_DOMAIN:$CF_ROUTER_PORT
 cf enable-service-access autoscaler
 
 export GOPATH=$PWD/app-autoscaler-release
 pushd app-autoscaler-release/src/acceptance
 cat > acceptance_config.json <<EOF
 {
-  "api": "api.$CF_DOMAIN",
+  "api": "api.$CF_DOMAIN::$CF_ROUTER_PORT",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
   "apps_domain": "$CF_DOMAIN",
   "skip_ssl_validation": true,
-  "use_http": false,
+  "use_http": true,
 
   "service_name": "autoscaler",
   "service_plan": "autoscaler-free-plan",
