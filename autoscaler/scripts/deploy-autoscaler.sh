@@ -15,12 +15,23 @@ cat >as_operation.yml <<-EOF
 ---
 - type: replace
   path: /instance_groups/name=apiserver/jobs/name=apiserver/properties/cf/api?
-  value: http://10.245.0.135:9022
+  value: http://api.((system_domain)):((cf_router_port))
 - type: replace
   path: /instance_groups/name=metricscollector/jobs/name=metricscollector/properties/cf/api?
-  value: http://10.245.0.135:9022
+  value: http://api.((system_domain)):((cf_router_port))
 
 EOF
+echo "echo \"10.245.0.34 api.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+echo "echo \"10.245.0.34 api.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+echo "echo \"10.245.0.34 api.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+
+echo "echo \"10.245.0.34 login.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+echo "echo \"10.245.0.34 login.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+echo "echo \"10.245.0.34 login.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+
+echo "echo \"10.245.0.34 uaa.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+echo "echo \"10.245.0.34 uaa.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+echo "echo \"10.245.0.34 uaa.bosh-lite2.com\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
 bosh create-release --force
 bosh -n -e vbox upload-release --rebase
 
