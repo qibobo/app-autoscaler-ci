@@ -19,6 +19,9 @@ cat >as_operation.yml <<-EOF
 - type: replace
   path: /instance_groups/name=metricscollector/jobs/name=metricscollector/properties/cf/api?
   value: http://api.((system_domain)):((cf_router_port))
+- type: replace
+  path: /instance_groups/name=scalingengine/jobs/name=scalingengine/properties/cf/api?
+  value: http://api.((system_domain)):((cf_router_port))
 
 EOF
 
