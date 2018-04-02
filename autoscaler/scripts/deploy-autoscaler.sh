@@ -29,6 +29,7 @@ bosh -e vbox -d app-autoscaler \
      -o as_operation.yml \
      --vars-store=bosh-lite/deployments/vars/autoscaler-deployment-vars.yml \
      -v system_domain=$CF_DOMAIN \
+     -v cf_router_port=$CF_ROUTER_PORT \
      -v cf_admin_password=$CF_ADMIN_PASSWORD \
      -v cf_admin_client_secret=$CF_ADMIN_CLIENT_SECRET \
      -v skip_ssl_validation=true 
