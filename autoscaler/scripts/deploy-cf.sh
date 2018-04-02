@@ -19,16 +19,16 @@ cat >cf_operation.yml <<-EOF
   value: http://login.((system_domain)):((cf_router_port))
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/url
-  value: http://uaa.((system_domain))
+  value: http://uaa.((system_domain)):((cf_router_port))
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/require_https?
   value: false
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/clients/ssh-proxy/redirect-uri
-  value: "http://uaa.((system_domain))/login"
+  value: "http://uaa.((system_domain)):((cf_router_port))/login"
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/uaa/url
-  value: http://uaa.((system_domain))
+  value: http://uaa.((system_domain)):((cf_router_port))
 - type: replace
   path: /instance_groups/name=api/jobs/name=cloud_controller_ng/properties/doppler?
   value: 
