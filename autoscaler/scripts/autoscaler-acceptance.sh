@@ -24,7 +24,8 @@ set +e
 cf delete-service-broker -f autoscaler
 set -e
 
-cf create-service-broker autoscaler username password http://autoscalerservicebroker.$CF_DOMAIN:$CF_ROUTER_PORT
+# cf create-service-broker autoscaler username password http://autoscalerservicebroker.$CF_DOMAIN:$CF_ROUTER_PORT
+cf create-service-broker autoscaler username password http://servicebroker.service.cf.internal:6101
 cf enable-service-access autoscaler
 
 export GOPATH=$PWD/app-autoscaler-release
