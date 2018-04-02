@@ -3,7 +3,7 @@ set -x -e
 
 apt-get -y update
 apt-get -y install dnsmasq
-echo -e "\n\naddress=/.${CF_DOMAIN}/${BOSH_TARGET}" >> /etc/dnsmasq.conf
+echo -e "\n\naddress=/.${CF_DOMAIN}/${BOSH_TARGET_HOST}" >> /etc/dnsmasq.conf
 echo 'starting dnsmasq'
 dnsmasq
 
