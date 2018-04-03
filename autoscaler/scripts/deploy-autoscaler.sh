@@ -25,21 +25,21 @@ cat >as_operation.yml <<-EOF
 
 EOF
 
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 api.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
 
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 login.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
 
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 uaa.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
 
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
-echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/apiserver/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/metricscollector/templates/pre-start.erb
+# echo "echo \"${CF_NETWORK_PREFIX}.0.34 doppler.${CF_DOMAIN}\" >> /etc/hosts" >> ./jobs/scalingengine/templates/pre-start.erb
 bosh create-release --force
 bosh -n -e vbox upload-release --rebase
 
