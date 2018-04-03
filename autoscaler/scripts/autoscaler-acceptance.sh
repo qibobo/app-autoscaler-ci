@@ -7,6 +7,9 @@ echo -e "\n\naddress=/.${CF_DOMAIN}/${BOSH_TARGET_HOST}" >> /etc/dnsmasq.conf
 echo 'starting dnsmasq'
 dnsmasq
 
+apt-get -y install iptables
+iptables -t nat -A OUTPUT -p tcp -d ${BOSH_TARGET_HOST} --dport 80 -j DNAT --to-destination ${BOSH_TARGET_HOST}:${CF_ROUTER_PORT}
+
 mkdir bin
 pushd bin
   curl -L 'https://cli.run.pivotal.io/stable?release=linux64-binary&source=github-rel' | tar xz
@@ -35,7 +38,7 @@ cat > acceptance_config.json <<EOF
   "api": "http://api.$CF_DOMAIN:$CF_ROUTER_PORT",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
-  "apps_domain": "$CF_DOMAIN:$CF_ROUTER_PORT",
+  "apps_domain": "$CF_DOMAIN,
   "skip_ssl_validation": true,
   "use_http": true,
 
