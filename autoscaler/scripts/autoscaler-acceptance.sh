@@ -38,7 +38,7 @@ cat > acceptance_config.json <<EOF
   "api": "http://api.$CF_DOMAIN:$CF_ROUTER_PORT",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
-  "apps_domain": "$CF_DOMAIN,
+  "apps_domain": "$CF_DOMAIN",
   "skip_ssl_validation": true,
   "use_http": true,
 
@@ -47,6 +47,6 @@ cat > acceptance_config.json <<EOF
   "aggregate_interval": 120
 }
 EOF
-CONFIG=$PWD/acceptance_config.json ./bin/test_default -trace
+CONFIG=$PWD/acceptance_config.json ./bin/test_default -trace -nodes=3
 
 popd
