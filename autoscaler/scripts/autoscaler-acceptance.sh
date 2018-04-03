@@ -47,6 +47,6 @@ cat > acceptance_config.json <<EOF
   "aggregate_interval": 120
 }
 EOF
-CONFIG=$PWD/acceptance_config.json ./bin/test_default -trace -nodes=3
+CONFIG=$PWD/acceptance_config.json ./bin/test_default -trace
 
 popd
