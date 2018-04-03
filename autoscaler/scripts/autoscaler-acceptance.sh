@@ -35,7 +35,7 @@ cat > acceptance_config.json <<EOF
   "api": "http://api.$CF_DOMAIN:$CF_ROUTER_PORT",
   "admin_user": "admin",
   "admin_password": "$CF_ADMIN_PASSWORD",
-  "apps_domain": "$CF_DOMAIN",
+  "apps_domain": "$CF_DOMAIN:$CF_ROUTER_PORT",
   "skip_ssl_validation": true,
   "use_http": true,
 
