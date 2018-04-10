@@ -45,7 +45,7 @@ cat > acceptance_config.json <<EOF
   "service_name": "autoscaler",
   "service_plan": "autoscaler-free-plan",
   "aggregate_interval": 120,
-  "autoscaler_api": "autoscaler.bosh-lite.com"
+  "autoscaler_api": "autoscaler.$CF_DOMAIN:$CF_ROUTER_PORT"
 }
 EOF
 CONFIG=$PWD/acceptance_config.json ./bin/test_default -trace -nodes=3
