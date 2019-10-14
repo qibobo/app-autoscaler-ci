@@ -25,7 +25,7 @@ bosh -n -e $BOSH_TARGET update-cloud-config iaas-support/bosh-lite/cloud-config.
 bosh -n -e $BOSH_TARGET -d cf deploy cf-deployment.yml \
 -o operations/bosh-lite.yml \
 -o operations/use-compiled-releases.yml \
---vars-store ../app-autoscaler-ci/autoscaler/deployment-vars.yml \
+--vars-store ../app-autoscaler-ci/autoscaler/cf-vars.yml \
 -v system_domain=bosh-lite.com \
 -v cf_admin_password=cf_admin_password \
 -v uaa_admin_client_secret=admin-secret

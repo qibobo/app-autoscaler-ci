@@ -2,14 +2,14 @@ resources:
 - name: app-autoscaler-ci
   type: git
   source:
-    uri: https://github.com/cloudfoundry-incubator/app-autoscaler-ci.git
-    branch: master
+    uri: https://github.com/qibobo/app-autoscaler-ci.git
+    branch: dev_qy_forv3
 
 - name: app-autoscaler-release
   type: git
   source:
-    uri: https://github.com/cloudfoundry-incubator/app-autoscaler-release.git
-    branch: master
+    uri: https://github.com/qibobo/app-autoscaler-release.git
+    branch: dev_qy_custommetric
 
 - name: cf-deployment
   type: git
@@ -50,7 +50,7 @@ jobs:
   plan:
   - in_parallel:
     - get: cf-deployment
-      trigger: true
+      # trigger: true
     - get: app-autoscaler-ci
   - task: deploy
     privileged: true
@@ -60,15 +60,30 @@ jobs:
       BOSH_CA: {{bosh-ca}}
       BOSH_USERNAME: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
+
+- name: delete-cf
+  serial_groups:
+  - bosh-app-autoscaler
+  plan:
+  - in_parallel:
+    - get: app-autoscaler-ci
+  - task: deploy
+    privileged: true
+    file: app-autoscaler-ci/autoscaler/tasks/delete-cf.yml
+    params:
+      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_CA: {{bosh-ca}}
+      BOSH_USERNAME: {{bosh-username}}
+      BOSH_PASSWORD: {{bosh-password}}
         
 
-- name: deploy-autoscaler
+- name: deploy-autoscaler-buildin
   serial_groups:
   - bosh-app-autoscaler
   plan:
   - in_parallel:
     - get: app-autoscaler-release
-      trigger: true
+      # trigger: true
     - get: app-autoscaler-ci
   - task: deploy
     privileged: true
@@ -78,17 +93,18 @@ jobs:
       BOSH_USERNAME: {{bosh-username}}
       BOSH_PASSWORD: {{bosh-password}}
       BOSH_CA: {{bosh-ca}}
+      BUILDIN: true
 
           
 
-- name: acceptance
+- name: acceptance-buildin
   serial_groups:
   - bosh-app-autoscaler
   plan:
   - in_parallel:
     - get: app-autoscaler-release
-      trigger: true
-      passed: [deploy-autoscaler]
+      # trigger: true
+      passed: [deploy-autoscaler-buildin]
       params:
         paths: [src/acceptance]
     - get: app-autoscaler-ci
@@ -97,3 +113,58 @@ jobs:
     privileged: true
     params:
       BOSH_TARGET: {{bosh-lite-ip}}
+      BUILDIN: true
+
+
+- name: deploy-autoscaler-service-offering
+  serial_groups:
+  - bosh-app-autoscaler
+  plan:
+  - in_parallel:
+    - get: app-autoscaler-release
+      # trigger: true
+    - get: app-autoscaler-ci
+  - task: deploy
+    privileged: true
+    file: app-autoscaler-ci/autoscaler/tasks/deploy-autoscaler.yml
+    params:
+      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_USERNAME: {{bosh-username}}
+      BOSH_PASSWORD: {{bosh-password}}
+      BOSH_CA: {{bosh-ca}}
+      BUILDIN: false
+
+- name: delete-autoscaler
+  serial_groups:
+  - bosh-app-autoscaler
+  plan:
+  - in_parallel:
+    - get: app-autoscaler-ci
+  - task: delete-deployment
+    privileged: true
+    file: app-autoscaler-ci/autoscaler/tasks/delete-autoscaler.yml
+    params:
+      BOSH_TARGET: {{bosh-lite-ip}}
+      BOSH_USERNAME: {{bosh-username}}
+      BOSH_PASSWORD: {{bosh-password}}
+      BOSH_CA: {{bosh-ca}}
+
+          
+
+- name: acceptance-service-offering
+  serial_groups:
+  - bosh-app-autoscaler
+  plan:
+  - in_parallel:
+    - get: app-autoscaler-release
+      # trigger: true
+      passed: [deploy-autoscaler-service-offering]
+      params:
+        paths: [src/acceptance]
+    - get: app-autoscaler-ci
+  - task: run-acceptance
+    file: app-autoscaler-ci/autoscaler/tasks/autoscaler-acceptance.yml
+    privileged: true
+    params:
+      BOSH_TARGET: {{bosh-lite-ip}}
+      BUILDIN: false

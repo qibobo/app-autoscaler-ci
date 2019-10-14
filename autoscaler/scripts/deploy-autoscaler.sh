@@ -27,7 +27,11 @@ if [[ $autoscalerExists == 1 ]];then
     theSame=$(echo ${currentCommitHash} | grep -c ${deployedCommitHash})
     if [[ $theSame == 1 ]];then
         echo "the app-autoscaler deployed ${deployedCommitHash} and the current ${currentCommitHash} are the same"
-        exit 0
+        echo "skip create-release and upload-release"
+    else
+        release_version=$(git log --pretty=format:"%H" -1)
+        bosh create-release --force --version=${release_version}\
+        && bosh -e vbox upload-release
     fi
 else
     release_version=$(git log --pretty=format:"%H" -1)
@@ -52,19 +56,27 @@ else
 	--secret "autoscaler_client_secret"
 fi
 
-cat >buildin.yml <<-EOF
-- type: replace
-  path: /instance_groups/name=asapi/jobs/name=apiserver/properties/autoscaler/api_server/service_offering_enabled
-  value: false
+if [[ $BUILDIN == "true" ]];then
+    echo "buildin mode deployment"
+    cat >buildin.yml <<-EOF
+    - type: replace
+      path: /instance_groups/name=asapi/jobs/name=golangapiserver/properties/autoscaler/apiserver/use_buildin_mode
+      value: true
 EOF
+else
+    echo "service-offering mode deployment"
+    cat >buildin.yml <<-EOF
+    - type: replace
+      path: /instance_groups/name=asapi/jobs/name=golangapiserver/properties/autoscaler/apiserver/use_buildin_mode
+      value: false
+EOF
+fi
 
-bosh create-release --force \
-&& bosh -e vbox upload-release \
-&& bosh -e vbox -n -d app-autoscaler \
+bosh -e vbox -n -d app-autoscaler \
      deploy templates/app-autoscaler-deployment.yml \
-     --vars-store=bosh-lite/deployments/vars/autoscaler-deployment-vars.yml \
+     --vars-store ../app-autoscaler-ci/autoscaler/autoscaler-vars.yml  \
      -o ./buildin.yml \
-     -l ../app-autoscaler-ci/autoscaler/deployment-vars.yml \
+     -l ../app-autoscaler-ci/autoscaler/cf-vars.yml \
      -v system_domain=bosh-lite.com \
      -v cf_client_id=autoscaler_client_id \
      -v cf_client_secret=autoscaler_client_secret \
