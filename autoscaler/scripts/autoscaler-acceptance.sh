@@ -27,11 +27,11 @@ else
     echo "service-offering mode deployment"
     set +e
     cf delete-service-broker -f autoscaler
-    set -e
     broker_password=$(yq read app-autoscaler-ci/autoscaler/autoscaler-vars.yml autoscaler_service_broker_password)
     cf create-service-broker autoscaler autoscaler_service_broker_user ${broker_password} https://autoscalerservicebroker.bosh-lite.com
     cf enable-service-access autoscaler
     service_offering_enabled=true
+    set -e
 fi
 
 
