@@ -22,7 +22,7 @@ cd app-autoscaler-release
 set +e
 autoscalerExists=$(bosh -e vbox releases | grep -c app-autoscaler)
 if [[ $autoscalerExists -gt 0 ]];then
-    deployedCommitHash=$(bosh -e vbox releases | grep app-autoscaler | awk -F ' ' '{print $3}' | sed 's/\+//g')
+    deployedCommitHash=$(bosh -e vbox releases | grep "app-autoscaler.*\*" | awk -F ' ' '{print $3}' | sed 's/\+//g')
     currentCommitHash=$(git log -1 --pretty=format:"%H")
     theSame=$(echo ${currentCommitHash} | grep -c ${deployedCommitHash})
     if [[ $theSame == 1 ]];then
