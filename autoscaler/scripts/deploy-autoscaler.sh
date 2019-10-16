@@ -22,9 +22,10 @@ cd app-autoscaler-release
 set +e
 autoscalerExists=$(bosh -e vbox releases | grep -c app-autoscaler)
 if [[ $autoscalerExists -gt 0 ]];then
-    deployedCommitHash=$(bosh -e vbox releases | grep "app-autoscaler.*\*" | awk -F ' ' '{print $3}' | sed 's/\+//g')
-    currentCommitHash=$(git log -1 --pretty=format:"%H")
-    theSame=$(echo ${currentCommitHash} | grep -c ${deployedCommitHash})
+    # deployedCommitHash=$(bosh -e vbox releases | grep "app-autoscaler.*\*" | awk -F ' ' '{print $3}' | sed 's/\+//g')
+    # currentCommitHash=$(git log -1 --pretty=format:"%H")
+    # theSame=$(echo ${currentCommitHash} | grep -c ${deployedCommitHash})
+    theSame=$(bosh -e vbox releases | grep -c $(git log --pretty=format:"%h" -1))
     if [[ $theSame == 1 ]];then
         echo "the app-autoscaler deployed ${deployedCommitHash} and the current ${currentCommitHash} are the same"
         echo "skip create-release and upload-release"
