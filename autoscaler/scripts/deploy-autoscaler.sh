@@ -30,13 +30,11 @@ if [[ $autoscalerExists -gt 0 ]];then
         echo "the app-autoscaler deployed ${deployedCommitHash} and the current ${currentCommitHash} are the same"
         echo "skip create-release and upload-release"
     else
-        release_version=$(git log --pretty=format:"%H" -1)
-        bosh create-release --force --version=${release_version}\
+        bosh create-release --force --version="$(date +%s)--$(git log --pretty=format:"%h" -1)"\
         && bosh -e vbox upload-release
     fi
 else
-    release_version=$(git log --pretty=format:"%H" -1)
-    bosh create-release --force --version=${release_version}\
+    bosh create-release --force --version="$(date +%s)--$(git log --pretty=format:"%h" -1)"\
     && bosh -e vbox upload-release
 fi
 
