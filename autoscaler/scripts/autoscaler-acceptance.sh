@@ -25,7 +25,7 @@ if [[ $BUILDIN == "true" ]];then
 
 else
     echo "service-offering mode deployment"
-    cf orgs | grep --color=no ASATS | xargs -I {} cf delete-org {} -f
+    # cf orgs | grep --color=no ASATS | xargs -I {} cf delete-org {} -f
     set +e
     cf delete-service-broker -f autoscaler
     set -e
